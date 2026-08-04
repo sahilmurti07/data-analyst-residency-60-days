@@ -1,105 +1,120 @@
-📅 Day 04 – Understanding Enterprise Data Pipelines & Building a Star Schema
+# Day 04 — From Data Pipeline to Data Warehouse
 
-Date: 04 August 2026
-Duration: 9:30 AM – 6:00 PM
-Focus: Microsoft Fabric | Data Pipelines | Warehouse | Star Schema | SQL
+📅 Date: 04 August 2026
 
-🎯 Objective
+## Goal
 
-Today's goal was to understand how enterprise data pipelines handle multiple source tables efficiently and continue building a warehouse using a proper dimensional model for reporting.
+Continue exploring Microsoft Fabric by understanding enterprise data pipeline orchestration and building a warehouse using dimensional modeling.
 
-💼 Work Completed
-1️⃣ Learned Enterprise Data Pipeline Patterns
+---
 
-Explored different approaches for ingesting multiple tables into Microsoft Fabric.
+## What I Worked On
 
-Approach 1 – ForEach Activity
+### 📌 Enterprise Data Pipeline Concepts
 
-Iterate through multiple source tables
-Execute the same Copy Data activity for each table
-Useful when migrating many tables from a source system
+Today I explored how organizations ingest multiple source tables without creating separate pipelines for every table.
 
-Approach 2 – Lookup Activity
+Learned two common approaches:
 
-Store metadata (table names, file paths, etc.) in JSON or key-value format
-Use the Lookup activity to retrieve the list
-Pass the output into a ForEach loop to automate ingestion
+- **ForEach Activity**
+  - Iterates through multiple source tables.
+  - Executes the same Copy Data activity dynamically.
+  - Useful for bulk ingestion.
 
-These patterns showed me how production pipelines avoid creating separate copy activities for every table.
+- **Lookup Activity**
+  - Reads metadata such as table names from JSON or a configuration table.
+  - Passes the output into a ForEach activity.
+  - Enables metadata-driven pipeline design.
 
-2️⃣ Continued SQL Practice
+This gave me a better understanding of how scalable ETL pipelines are designed.
 
-Solved business-oriented SQL problems on StrataScratch to strengthen analytical thinking.
+---
 
-Focused on:
+### 🏗 Warehouse Development
 
-Joins
-Aggregations
-Window Functions
-Business KPI calculations
-3️⃣ Continued Warehouse Development
+Continued building the warehouse layer by creating a Star Schema.
 
-Worked on building a warehouse using a Star Schema.
+Created:
 
-Created and refined:
+- Dim_Date
+- Dim_Customer
+- Dim_Product
+- Dim_Region
+- Fact_Sales
 
-Dim_Date
-Dim_Customer
-Dim_Product
-Dim_Region
-Fact_Sales
+While creating the Fact table, I encountered duplicate row issues caused by non-unique join keys and spent time debugging the dimensional model.
 
-While creating the fact table, I also debugged join and schema issues, which helped me better understand how dimensional modeling works in practice.
+---
 
-4️⃣ Learned About Fact and Dimension Tables
+### 🧩 Data Modeling
 
-Today's biggest takeaway was understanding the purpose of each table.
+Today's focus wasn't writing more SQL—it was understanding **how tables should relate to each other**.
 
-Dimension Tables
+Learned:
 
-Store descriptive attributes
-Used for filtering and slicing reports
+- Difference between Fact and Dimension tables
+- Importance of surrogate keys
+- Why unique business keys matter
+- How improper joins can multiply fact records
 
-Fact Table
+---
 
-Stores business transactions and measurable values
-References dimensions using surrogate keys
-🧠 Key Learnings
+### 💻 SQL Practice
 
-Today I learned:
+Continued solving business-oriented SQL problems on StrataScratch.
 
-How enterprise pipelines ingest multiple tables efficiently using Lookup and ForEach.
-Why metadata-driven pipelines are preferred over hardcoding every source.
-The difference between Fact and Dimension tables.
-How Star Schema improves reporting and dashboard performance.
-Why surrogate keys and unique business keys matter when building a warehouse.
-How incorrect joins can duplicate rows in a fact table and how to debug those issues.
-🛠️ Technologies Used
-Microsoft Fabric
-Data Pipelines
-Warehouse
-SQL
-PySpark
-Delta Lake
-StrataScratch
-💭 Reflection
+Practiced:
 
-Today shifted my perspective from simply building pipelines to understanding how they scale in real enterprise environments. Learning metadata-driven ingestion with Lookup and ForEach made me appreciate how teams automate loading dozens or even hundreds of tables without duplicating pipeline logic.
+- Aggregations
+- Joins
+- Window Functions
+- Business KPI calculations
 
-Building the warehouse also reinforced the importance of proper dimensional modeling. Debugging joins and creating a Star Schema helped me understand that data modeling is just as important as writing SQL or PySpark code.
+---
 
-📈 Progress
+## Challenges Faced
 
-✅ Day 04 Completed
+- Duplicate rows while creating Fact table
+- Understanding customer dimension uniqueness
+- Delta schema mismatch during table overwrite
+- Debugging join logic in PySpark
 
-Current Focus:
+---
 
-Microsoft Fabric Pipelines
-Metadata-driven ETL
-Warehouse Design
-Star Schema
-SQL Problem Solving
+## Key Takeaways
 
-Tomorrow's Goal:
+- Enterprise pipelines are metadata-driven.
+- Lookup + ForEach makes pipelines reusable.
+- Star Schema is the foundation of BI reporting.
+- Fact tables should never increase row count because of incorrect joins.
+- Designing the data model is just as important as writing transformation logic.
 
-Complete the semantic model by connecting the fact and dimension tables, then start building the first Power BI dashboard.
+---
+
+## Tech Stack
+
+- Microsoft Fabric
+- Data Pipeline
+- Warehouse
+- SQL
+- PySpark
+- Delta Lake
+- StrataScratch
+
+---
+
+## Progress
+
+✅ Bronze Layer
+
+✅ Silver Layer
+
+✅ Gold Layer
+
+✅ Warehouse
+
+✅ Star Schema (In Progress)
+
+⬜ Semantic Model
+
+⬜ Power BI Dashboard
