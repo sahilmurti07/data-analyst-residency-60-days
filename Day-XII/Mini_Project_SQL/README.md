@@ -1,11 +1,11 @@
-# 📊 Global E-Commerce & Manufacturing Analytics
+# 📊 Global Candy Distributor & Manufacturing Analytics
 
 An end-to-end data analytics and business intelligence project built on **Microsoft Fabric**, leveraging **Spark SQL** and **Medallion Lakehouse Architecture** to deliver strategic insights across supply chain unit economics, sales targets, customer retention, and portfolio optimization.
 
 ---
 
 ## 📑 Executive Presentation
-👉 **[View the Full Presentation Report (Canva / PDF)](./presentation/Candy Distributor Analysis presentation.pdf)**
+👉 **[View the Full Presentation Report (Canva / PDF)](./presentation/Candy_Distributor_Analysis_presentation.pdf)**
 
 ---
 
