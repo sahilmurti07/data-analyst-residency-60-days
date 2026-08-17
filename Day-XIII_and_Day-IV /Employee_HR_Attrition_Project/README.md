@@ -1,33 +1,31 @@
 # 🚨 Employee Attrition Analysis — HR Risk & Retention
 
-> **Using SQL and data analysis to identify factors associated with employee attrition and flag currently active employees who may require proactive retention attention.**
+> **A SQL-based HR analytics project using Microsoft Fabric to analyze employee attrition, identify key risk factors, and flag currently active employees who show multiple historical attrition signals.**
 
 ---
 
 ## 📌 Project Overview
 
-Employee attrition is a major challenge for organizations because replacing experienced employees can increase recruitment costs, training expenses, and productivity loss.
+Employee attrition can create significant recruitment, training, and productivity costs for organizations.
 
-This project analyzes the **IBM HR Analytics Employee Attrition Dataset** to understand:
+This project analyzes the **IBM HR Analytics Employee Attrition Dataset** using **SQL in Microsoft Fabric** to understand employee attrition patterns and identify employee segments associated with higher attrition.
 
-* Why employees leave
-* Which employee groups experience higher attrition
-* Which factors are associated with employee turnover
-* Which currently active employees show multiple historical risk signals
-* What HR actions could be considered for higher-risk segments
+The complete analysis was performed using SQL.
 
-Rather than analyzing all columns simultaneously, the analysis follows a structured business approach:
+The project follows a structured analytical approach:
 
 ```text
-Data Exploration
+IBM HR Dataset
        ↓
-Data Cleaning & Preparation
+Microsoft Fabric
        ↓
-Overall Attrition Analysis
+Data Cleaning & Transformation
        ↓
-Who Is Leaving?
+clean_hr_data Table
        ↓
-Why Might They Be Leaving?
+SQL-Based EDA
+       ↓
+Attrition Analysis
        ↓
 Risk Factor Analysis
        ↓
@@ -40,15 +38,15 @@ HR Retention Recommendations
 
 # 🎯 Business Problem
 
-The HR team wants to answer:
+The HR team wants to understand:
 
-> **Why are employees leaving, which employee groups are most affected, and which current employees may show higher historical attrition risk?**
+> **Why are employees leaving, which employee groups have higher attrition, and which currently active employees show multiple historical risk signals?**
 
-The objective is to identify **actionable risk indicators** that HR can investigate and potentially address through targeted retention strategies.
+The objective is to use SQL to transform raw HR data into **actionable business insights** that can help HR prioritize retention investigations.
 
 ---
 
-# 📊 Dataset
+# 🗂️ Dataset
 
 **Dataset:** IBM HR Analytics Employee Attrition Dataset
 
@@ -77,27 +75,186 @@ The objective is to identify **actionable risk indicators** that HR can investig
 
 ---
 
+# 🛠️ Technology Stack
+
+| Technology                   | Purpose                                         |
+| ---------------------------- | ----------------------------------------------- |
+| **SQL**                      | Data cleaning, transformation, EDA and analysis |
+| **Microsoft Fabric**         | Data environment and SQL execution              |
+| **IBM HR Analytics Dataset** | Source HR dataset                               |
+
+### Core SQL Concepts Used
+
+* `SELECT`
+* `WHERE`
+* `CASE`
+* `GROUP BY`
+* `ORDER BY`
+* `HAVING`
+* Aggregate functions
+* `COUNT()`
+* `SUM()`
+* `AVG()`
+* `CAST()`
+* CTEs
+* Conditional aggregation
+* Calculated columns
+* Bucketing / segmentation
+* Risk scoring
+* Filtering active employees
+
+---
+
+# 🏗️ Data Preparation in Microsoft Fabric
+
+The raw IBM HR dataset was loaded into **Microsoft Fabric** and transformed using SQL.
+
+Instead of performing analysis directly on the raw dataset, a cleaned analytical table was created:
+
+```text
+Raw HR Dataset
+      ↓
+SQL Cleaning & Transformation
+      ↓
+clean_hr_data
+      ↓
+SQL Analysis
+```
+
+The `clean_hr_data` table contains cleaned and analysis-ready fields, including derived business buckets such as:
+
+* `Age_Bucket`
+* `Experience_Bucket`
+* `Salary_band`
+* `years_with_curr_manager_bucket`
+
+These derived columns make segmentation and business analysis easier.
+
+---
+
+# 🧹 SQL Data Cleaning & Transformation
+
+The initial stage focused on preparing the dataset for analysis.
+
+Key activities included:
+
+* Reviewing column structure
+* Checking data types
+* Handling categorical values
+* Creating business-friendly buckets
+* Creating derived analytical columns
+* Standardizing values used in analysis
+* Preparing the final `clean_hr_data` table
+
+### Example Transformation
+
+Instead of repeatedly analyzing raw numerical values, meaningful business segments were created.
+
+```text
+Age
+ ↓
+Age Bucket
+
+MonthlyIncome
+ ↓
+Salary Band
+
+YearsAtCompany
+ ↓
+Experience Bucket
+
+YearsWithCurrManager
+ ↓
+Manager Tenure Bucket
+```
+
+This made the subsequent SQL analysis easier to interpret from a business perspective.
+
+---
+
+# 📊 SQL-Based Exploratory Data Analysis
+
+All EDA was performed directly using SQL.
+
+The analysis was divided into multiple business questions rather than looking at every column independently.
+
+### EDA Flow
+
+```text
+Overall Attrition
+       ↓
+Department Analysis
+       ↓
+Job Role Analysis
+       ↓
+Age Segmentation
+       ↓
+Experience Analysis
+       ↓
+Salary Analysis
+       ↓
+Job Satisfaction
+       ↓
+Work-Life Balance
+       ↓
+Overtime
+       ↓
+Business Travel
+       ↓
+Manager Tenure
+       ↓
+Combined Risk Factors
+```
+
+---
+
 # 📈 Overall Attrition
 
-The first step was establishing the overall attrition baseline.
+The first analysis established the overall attrition baseline.
 
 | Metric                 |     Result |
 | ---------------------- | ---------: |
 | Total Employees        |  **1,470** |
 | Employees Who Left     |    **237** |
+| Employees Retained     |  **1,233** |
 | Overall Attrition Rate | **16.12%** |
 
-### Key Insight
+### SQL Logic
 
-The **16.12% attrition rate** provides the baseline against which different employee segments can be compared.
+The overall attrition rate was calculated by comparing employees who left against the total employee population.
+
+```sql
+SELECT
+    COUNT(*) AS Total_Employees,
+
+    SUM(
+        CASE
+            WHEN Attrition = 1 THEN 1
+            ELSE 0
+        END
+    ) AS Employees_Left,
+
+    CAST(
+        100.0 *
+        SUM(
+            CASE
+                WHEN Attrition = 1 THEN 1
+                ELSE 0
+            END
+        ) / COUNT(*)
+        AS DECIMAL(10,2)
+    ) AS Attrition_Rate
+
+FROM dbo.clean_hr_data;
+```
 
 ---
 
 # 🔎 Key Findings
 
-## 1. 👶 Younger Employees Show Higher Attrition
+## 1. 👶 Age Is an Important Attrition Segment
 
-Younger employees showed considerably higher attrition rates.
+Younger employees showed higher attrition rates.
 
 | Age Group | Attrition Rate |
 | --------- | -------------: |
@@ -110,24 +267,24 @@ Early-career employees may require additional attention around:
 
 * Career development
 * Compensation progression
-* Training opportunities
+* Training
 * Internal mobility
 * Manager support
 * Employee engagement
 
 ---
 
-## 2. 💼 Sales Roles Show High Attrition
+# 2. 💼 Sales Roles Show High Attrition
 
-Sales-related roles were identified as an important risk area.
+Sales-related roles were identified as an important area for further investigation.
 
 **Sales Representative attrition:** approximately **39%**
 
-This raises an important business question:
+This raises the business question:
 
-> **Why are Sales Representatives and other sales employees leaving at higher rates?**
+> **Why are Sales Representatives leaving at a higher rate?**
 
-Potential areas for further investigation include:
+Potential factors to investigate include:
 
 * Compensation
 * Workload
@@ -136,62 +293,55 @@ Potential areas for further investigation include:
 * Career progression
 * Manager support
 
-These factors should be validated before concluding that any one factor directly causes attrition.
+These factors represent hypotheses for further investigation rather than proven causes.
 
 ---
 
-## 3. 😊 Job Satisfaction Is Associated With Attrition
+# 3. 😊 Job Satisfaction
 
-Employees reporting lower job satisfaction showed higher attrition.
+Lower job satisfaction groups showed higher attrition.
 
-This suggests that HR should monitor:
+The SQL analysis examined attrition rates across different `JobSatisfaction` levels.
+
+This highlighted the importance of monitoring:
 
 * Employee satisfaction
 * Manager relationships
 * Work environment
 * Career development
 * Recognition
-* Engagement
-
-### Business Question
-
-> Are employees leaving because they are dissatisfied, or are other factors contributing to both dissatisfaction and attrition?
-
-Further employee feedback and organizational data would help answer this.
 
 ---
 
-## 4. ⚖️ Work-Life Balance
+# 4. ⚖️ Work-Life Balance
 
 Employees reporting poor work-life balance showed elevated attrition.
 
 **Work-Life Balance Level 1** was identified as a higher-risk segment.
 
-This suggests HR should evaluate:
+This suggests that HR should examine work-life balance together with workload and overtime.
 
 ```text
-Workload
-   +
+Poor Work-Life Balance
+          +
 Overtime
-   +
-Work-Life Balance
-   ↓
-Employee Retention Risk
+          +
+High Workload
+          ↓
+Potential Retention Risk
 ```
-
-Work-life balance should therefore be analyzed alongside workload and overtime rather than independently.
 
 ---
 
-## 5. 💰 Salary Is an Important Risk Indicator
+# 5. 💰 Salary
 
 Employees in the **under 3K salary band** showed higher attrition.
 
-This led to an important business hypothesis:
+This led to the following business hypothesis:
 
-> **Employees with relatively low compensation may have a higher tendency to leave, particularly when combined with other risk factors.**
+> **Lower compensation may be associated with higher attrition, particularly when combined with other risk factors.**
 
-Salary should be analyzed together with:
+Salary was therefore analyzed alongside:
 
 * Job role
 * Experience
@@ -199,82 +349,82 @@ Salary should be analyzed together with:
 * Performance
 * Career progression
 
-rather than treated as an isolated factor.
-
 ---
 
-## 6. ⏰ Overtime
+# 6. ⏰ Overtime
 
-Overtime was identified as another important factor associated with attrition.
+Overtime was identified as another important attrition indicator.
 
 The analysis examined:
 
 ```text
 OverTime
-   ↓
+    ↓
 Attrition Rate
 ```
 
-and also considered:
+and:
 
 ```text
-OverTime + Monthly Income
+OverTime
+    +
+Monthly Income
+    ↓
+Potential Workload + Compensation Risk
 ```
 
-This helps identify employees who may be experiencing a combination of:
-
-**High workload + relatively low compensation**
+This combination provides more useful business context than analyzing overtime alone.
 
 ---
 
-## 7. ✈️ Business Travel
+# 7. ✈️ Business Travel
 
-Frequent business travel was identified as another potential risk indicator.
+Frequent business travel was identified as another potential attrition indicator.
 
-A possible business interpretation is:
+A possible combination is:
 
 ```text
 Frequent Travel
-      +
-High Workload
-      +
+       +
+Overtime
+       +
 Low Compensation
-      ↓
+       ↓
 Potentially Higher Attrition Risk
 ```
 
-However, travel should be treated as a **risk indicator rather than a proven cause**.
+However, business travel should be considered a **risk signal rather than a proven cause of attrition**.
 
 ---
 
-## 8. 👨‍💼 Early Career & Manager Tenure
+# 8. 👨‍💼 Experience & Manager Tenure
 
-The analysis also examined:
+The SQL analysis also examined:
 
 * Experience buckets
 * Years at company
 * Years with current manager
 * Years since last promotion
 
-Employees in the early stages of their careers showed higher attrition.
+Early-career employees showed higher attrition.
 
-The analysis also highlighted the **0–2 year relationship with the current manager** as an area worth monitoring.
+The analysis also identified the **0–2 year relationship with the current manager** as an area worth monitoring.
 
-Possible HR areas of investigation include:
+Potential areas for HR investigation include:
 
 * Manager-employee relationship
-* Onboarding quality
-* Career progression
+* Onboarding
 * Mentorship
+* Career progression
 * Role expectations
 
 ---
 
 # 🧩 Risk Factor Analysis
 
-To move beyond analyzing individual factors, multiple risk conditions were combined into an **employee risk score**.
+After analyzing individual factors, multiple risk conditions were combined to create an **employee risk score**.
 
-### Risk Factors
+### Risk Factors Used
 
 Each matching condition contributes **1 point**:
 
@@ -319,13 +469,29 @@ Risk Score =
 |    **3–4** | 🟠 Medium Risk |
 |    **1–2** | 🟢 Low Risk    |
 
-The scoring model is applied only to **currently active employees**:
+---
+
+# 👥 Active Employee Risk Analysis
+
+An important part of the project is that risk scoring is performed only on **currently active employees**.
 
 ```sql
 WHERE Attrition = 0
 ```
 
-This is important because the objective is to identify **current employees who may require retention attention**, rather than scoring employees who have already left.
+This changes the purpose of the analysis from:
+
+```text
+Who already left?
+```
+
+to:
+
+```text
+Which current employees show multiple historical risk signals?
+```
+
+This makes the analysis more useful from an HR retention perspective.
 
 ---
 
@@ -336,7 +502,7 @@ WITH Employee_Risk_Scoring AS (
 
     SELECT
         *,
-        
+
         (
             CASE
                 WHEN Salary_band = 'under 3k'
@@ -431,56 +597,58 @@ ORDER BY Risk_Score DESC;
 
 # 🎯 Business Use of the Risk Table
 
-The risk table allows HR to move from:
+The risk table allows HR to move from historical analysis to proactive investigation.
 
 ```text
 Historical Attrition Analysis
           ↓
 Identify Risk Factors
           ↓
-Identify Current At-Risk Employees
+Combine Risk Signals
+          ↓
+Score Current Employees
           ↓
 Prioritize HR Investigation
           ↓
 Targeted Retention Actions
 ```
 
-For example, a high-risk employee may have:
+For example, an employee with a high risk score may have several of the following characteristics:
 
 * Low salary
-* Frequent travel
+* Frequent business travel
 * Overtime
 * Low job satisfaction
 * Poor work-life balance
 * Short tenure with current manager
 
-Instead of applying the same retention strategy to every employee, HR can prioritize employees based on their **risk profile and individual circumstances**.
+Instead of applying the same retention strategy to everyone, HR can prioritize employees based on their **individual risk profiles**.
 
 ---
 
-# 💼 Recommended HR Actions
+# 💼 HR Retention Recommendations
 
 ## 🔴 High-Risk Employees
 
-Prioritize for:
+Potential actions:
 
 * Manager check-ins
 * Compensation review
 * Workload assessment
-* Career development discussions
+* Career development discussion
 * Internal mobility opportunities
-* Retention incentives where justified
+* Retention incentives where appropriate
 
 ---
 
 ## 🟠 Medium-Risk Employees
 
-Focus on:
+Potential actions:
 
 * Engagement monitoring
-* Career progression
+* Career progression discussions
 * Manager support
-* Work-life balance
+* Work-life balance review
 * Recognition
 * Regular feedback
 
@@ -500,11 +668,11 @@ Continue:
 
 # 🧠 Key Business Questions Answered
 
-The project explored:
+This SQL project answers:
 
-* What is the overall attrition rate?
+* What is the overall employee attrition rate?
 * Which age groups have the highest attrition?
-* Which job roles are most affected?
+* Which job roles have higher attrition?
 * Which departments require attention?
 * Does job satisfaction relate to attrition?
 * Does work-life balance relate to attrition?
@@ -513,144 +681,136 @@ The project explored:
 * Does frequent business travel matter?
 * Does early-career experience relate to attrition?
 * Does manager tenure appear to be a risk indicator?
-* Which currently active employees match multiple risk factors?
-* How can HR prioritize employees for further investigation?
+* Which currently active employees show multiple risk signals?
+* How can HR prioritize retention investigations?
 
 ---
 
 # ⚠️ Analytical Limitations
 
-This project identifies **historical patterns and risk indicators**. It does **not** prove that any individual factor directly causes employee attrition.
+This project identifies **historical patterns and risk indicators**. It does not prove that any individual factor directly causes employee attrition.
 
-Important limitations include:
+Important limitations:
 
 * The dataset represents historical employee information.
-* The risk score is rule-based rather than a machine-learning prediction.
-* Every selected risk factor receives equal weight.
+* The risk score is rule-based.
+* Each risk factor receives equal weight.
+* The score is not a machine-learning prediction.
+* The score should not be interpreted as a probability of resignation.
 * Correlation or association does not establish causation.
-* The risk score should not be interpreted as a guaranteed probability of resignation.
 * HR context and employee feedback are required before taking action.
-* Further statistical or predictive modeling could improve the risk assessment.
 
-> **The risk score is intended as a prioritization tool for HR investigation, not as a definitive prediction of employee resignation.**
-
----
-
-# 🛠️ Technology Stack
-
-| Technology             | Purpose                                          |
-| ---------------------- | ------------------------------------------------ |
-| **SQL**                | Data cleaning, segmentation & analysis           |
-| **Microsoft Fabric**   | Data processing & analytics environment          |
-| **Python**             | Data processing & exploration                    |
-| **Pandas**             | Data manipulation                                |
-| **Data Cleaning**      | Preparing analysis-ready employee data           |
-| **EDA**                | Identifying patterns and relationships           |
-| **Business Analytics** | Translating findings into HR insights            |
-| **Risk Scoring**       | Identifying employees with multiple risk signals |
+> **The risk score should be used as a prioritization framework for HR investigation, not as a definitive prediction that an employee will leave.**
 
 ---
 
 # 📌 Project Workflow
 
 ```text
-IBM HR Dataset
-       ↓
-Data Exploration
-       ↓
-Data Cleaning
-       ↓
-Column Understanding
-       ↓
+IBM HR Analytics Dataset
+          ↓
+Load Data into Microsoft Fabric
+          ↓
+SQL Data Cleaning
+          ↓
+Create clean_hr_data
+          ↓
+SQL-Based EDA
+          ↓
 Overall Attrition Analysis
-       ↓
-Department / Role Analysis
-       ↓
-Employee Demographic Analysis
-       ↓
-Satisfaction / Salary / Overtime Analysis
-       ↓
-Risk Factor Analysis
-       ↓
-Employee Risk Scoring
-       ↓
+          ↓
+Department & Job Role Analysis
+          ↓
+Age & Experience Analysis
+          ↓
+Salary Analysis
+          ↓
+Satisfaction & Work-Life Balance
+          ↓
+Overtime & Business Travel
+          ↓
+Manager Tenure Analysis
+          ↓
+Identify Risk Factors
+          ↓
+Create Employee Risk Score
+          ↓
+Filter Active Employees
+          ↓
+Risk Classification
+          ↓
 HR Retention Recommendations
 ```
 
 ---
 
-# 📊 Analytical Framework
-
-The project follows a **descriptive → diagnostic → prescriptive** approach:
-
-### 1️⃣ Descriptive Analytics
+# 📂 Project Structure
 
 ```text
-How many employees are leaving?
-Who is leaving?
-Which segments have higher attrition?
+Employee-Attrition-SQL-Analysis/
+│
+├── README.md
+│
+├── sql/
+│   ├── 01_data_cleaning.sql
+│   ├── 02_overall_attrition.sql
+│   ├── 03_department_analysis.sql
+│   ├── 04_job_role_analysis.sql
+│   ├── 05_demographic_analysis.sql
+│   ├── 06_satisfaction_analysis.sql
+│   ├── 07_salary_overtime_analysis.sql
+│   ├── 08_risk_factor_analysis.sql
+│   └── 09_employee_risk_scoring.sql
+│
+└── data/
+    └── IBM_HR_Analytics.csv
 ```
-
-### 2️⃣ Diagnostic Analytics
-
-```text
-Which factors are associated with higher attrition?
-Why might certain groups be more vulnerable?
-```
-
-### 3️⃣ Prescriptive Thinking
-
-```text
-Which current employees show multiple risk signals?
-What HR actions could be considered?
-```
-
-This makes the project more than a simple attrition-rate calculation.
 
 ---
 
 # 🚀 Future Improvements
 
-The analysis can be extended by:
+Although the current project is intentionally focused on SQL, it can later be extended with:
 
-* Building an interactive Power BI HR dashboard
-* Creating department-level risk dashboards
-* Applying statistical significance testing
-* Testing weighted risk scores
-* Building a machine-learning attrition prediction model
-* Comparing Logistic Regression, Random Forest and XGBoost
-* Evaluating model precision and recall
-* Creating explainable employee-level predictions
-* Adding HR intervention tracking
-* Measuring whether retention interventions reduce future attrition
+* Power BI dashboarding
+* Statistical significance testing
+* Weighted risk scoring
+* Machine-learning attrition prediction
+* Logistic Regression
+* Random Forest
+* Model explainability
+* Employee-level prediction dashboards
+* HR intervention tracking
+
+These would be **future extensions** and are not part of the current SQL analysis.
 
 ---
 
 # ✅ Final Outcome
 
-This project moved beyond simply answering:
+This project demonstrates how SQL can be used to move from raw HR data to actionable business insights.
 
-> **"How many employees are leaving?"**
-
-The analysis progressed through:
+The analysis progressed from:
 
 ```text
-How many are leaving?
-        ↓
+How many employees are leaving?
+            ↓
 Who is leaving?
-        ↓
+            ↓
+Which employee segments are affected?
+            ↓
 Which factors are associated with attrition?
-        ↓
+            ↓
 Which current employees show multiple risk signals?
-        ↓
+            ↓
 What can HR investigate or address?
 ```
 
-The final risk-scoring framework provides HR with a structured way to **prioritize employees for further investigation and targeted retention actions**.
+The final **employee risk-scoring framework** provides HR with a structured way to prioritize current employees for further investigation.
 
 > ### 🎯 Key Takeaway
 >
-> **The goal is not to predict that an employee will definitely leave. The goal is to identify currently active employees who show multiple historical risk signals so HR can investigate their situation and potentially intervene proactively.**
+> **The objective is not to predict that an employee will definitely leave. The objective is to identify currently active employees showing multiple historical attrition signals so HR can investigate their situation and take proactive retention action where appropriate.**
 
 ---
 
@@ -664,5 +824,4 @@ The final risk-scoring framework provides HR with a structured way to **prioriti
 
 ## ⭐ If You Found This Project Useful
 
-If you found this analysis interesting, consider giving the repository a ⭐ on GitHub.
-
+If you found this SQL analysis useful, consider giving the repository a ⭐ on GitHub.
