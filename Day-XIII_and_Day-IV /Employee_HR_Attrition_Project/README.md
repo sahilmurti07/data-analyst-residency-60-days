@@ -10,7 +10,7 @@ Employee attrition can create significant recruitment, training, and productivit
 
 This project analyzes the **IBM HR Analytics Employee Attrition Dataset** using **SQL in Microsoft Fabric** to understand employee attrition patterns and identify employee segments associated with higher attrition.
 
-The complete analysis was performed using SQL.
+The complete analysis was performed using **SQL**.
 
 The project follows a structured analytical approach:
 
@@ -46,7 +46,7 @@ The objective is to use SQL to transform raw HR data into **actionable business 
 
 ---
 
-# 🗂️ Dataset
+# 📊 Dataset
 
 **Dataset:** IBM HR Analytics Employee Attrition Dataset
 
@@ -55,6 +55,7 @@ The objective is to use SQL to transform raw HR data into **actionable business 
 | Total Employees        |  **1,470** |
 | Total Columns          |     **24** |
 | Employees Who Left     |    **237** |
+| Employees Retained     |  **1,233** |
 | Overall Attrition Rate | **16.12%** |
 
 ### Important Columns
@@ -83,7 +84,7 @@ The objective is to use SQL to transform raw HR data into **actionable business 
 | **Microsoft Fabric**         | Data environment and SQL execution              |
 | **IBM HR Analytics Dataset** | Source HR dataset                               |
 
-### Core SQL Concepts Used
+### SQL Concepts Used
 
 * `SELECT`
 * `WHERE`
@@ -91,17 +92,17 @@ The objective is to use SQL to transform raw HR data into **actionable business 
 * `GROUP BY`
 * `ORDER BY`
 * `HAVING`
-* Aggregate functions
+* Aggregate Functions
 * `COUNT()`
 * `SUM()`
 * `AVG()`
 * `CAST()`
 * CTEs
-* Conditional aggregation
-* Calculated columns
-* Bucketing / segmentation
-* Risk scoring
-* Filtering active employees
+* Conditional Aggregation
+* Calculated Columns
+* Data Bucketing
+* Segmentation
+* Risk Scoring
 
 ---
 
@@ -109,7 +110,15 @@ The objective is to use SQL to transform raw HR data into **actionable business 
 
 The raw IBM HR dataset was loaded into **Microsoft Fabric** and transformed using SQL.
 
-Instead of performing analysis directly on the raw dataset, a cleaned analytical table was created:
+A cleaned analytical table called:
+
+```text
+clean_hr_data
+```
+
+was created for the analysis.
+
+The data preparation process followed:
 
 ```text
 Raw HR Dataset
@@ -121,34 +130,34 @@ clean_hr_data
 SQL Analysis
 ```
 
-The `clean_hr_data` table contains cleaned and analysis-ready fields, including derived business buckets such as:
+The cleaned table contains analysis-ready fields and derived business columns such as:
 
 * `Age_Bucket`
 * `Experience_Bucket`
 * `Salary_band`
 * `years_with_curr_manager_bucket`
 
-These derived columns make segmentation and business analysis easier.
+These derived fields were created to make employee segmentation and risk analysis easier.
 
 ---
 
 # 🧹 SQL Data Cleaning & Transformation
 
-The initial stage focused on preparing the dataset for analysis.
+The initial stage focused on preparing the raw dataset for analysis.
 
 Key activities included:
 
-* Reviewing column structure
-* Checking data types
-* Handling categorical values
+* Reviewing the dataset structure
+* Understanding available columns
+* Preparing analysis-ready data
+* Creating derived columns
 * Creating business-friendly buckets
-* Creating derived analytical columns
-* Standardizing values used in analysis
-* Preparing the final `clean_hr_data` table
+* Standardizing values used during analysis
+* Creating the final `clean_hr_data` table
 
-### Example Transformation
+### Business Bucketing
 
-Instead of repeatedly analyzing raw numerical values, meaningful business segments were created.
+Raw numerical fields were transformed into meaningful business segments:
 
 ```text
 Age
@@ -168,15 +177,15 @@ YearsWithCurrManager
 Manager Tenure Bucket
 ```
 
-This made the subsequent SQL analysis easier to interpret from a business perspective.
+This allowed the analysis to focus on meaningful employee segments instead of individual numerical values.
 
 ---
 
-# 📊 SQL-Based Exploratory Data Analysis
+# 📈 SQL-Based Exploratory Data Analysis
 
-All EDA was performed directly using SQL.
+All **Exploratory Data Analysis (EDA)** was performed directly using SQL.
 
-The analysis was divided into multiple business questions rather than looking at every column independently.
+The analysis was structured around business questions rather than simply examining every column individually.
 
 ### EDA Flow
 
@@ -208,9 +217,9 @@ Combined Risk Factors
 
 ---
 
-# 📈 Overall Attrition
+# 📊 Overall Attrition
 
-The first analysis established the overall attrition baseline.
+The first step was to establish the overall attrition baseline.
 
 | Metric                 |     Result |
 | ---------------------- | ---------: |
@@ -220,8 +229,6 @@ The first analysis established the overall attrition baseline.
 | Overall Attrition Rate | **16.12%** |
 
 ### SQL Logic
-
-The overall attrition rate was calculated by comparing employees who left against the total employee population.
 
 ```sql
 SELECT
@@ -267,24 +274,24 @@ Early-career employees may require additional attention around:
 
 * Career development
 * Compensation progression
-* Training
+* Training opportunities
 * Internal mobility
 * Manager support
 * Employee engagement
 
 ---
 
-# 2. 💼 Sales Roles Show High Attrition
+## 2. 💼 Sales Roles Show High Attrition
 
 Sales-related roles were identified as an important area for further investigation.
 
 **Sales Representative attrition:** approximately **39%**
 
-This raises the business question:
+This raises an important business question:
 
 > **Why are Sales Representatives leaving at a higher rate?**
 
-Potential factors to investigate include:
+Potential areas for investigation include:
 
 * Compensation
 * Workload
@@ -293,11 +300,11 @@ Potential factors to investigate include:
 * Career progression
 * Manager support
 
-These factors represent hypotheses for further investigation rather than proven causes.
+These are potential explanations that require further validation rather than proven causes.
 
 ---
 
-# 3. 😊 Job Satisfaction
+## 3. 😊 Job Satisfaction
 
 Lower job satisfaction groups showed higher attrition.
 
@@ -310,16 +317,17 @@ This highlighted the importance of monitoring:
 * Work environment
 * Career development
 * Recognition
+* Employee engagement
 
 ---
 
-# 4. ⚖️ Work-Life Balance
+## 4. ⚖️ Work-Life Balance
 
 Employees reporting poor work-life balance showed elevated attrition.
 
 **Work-Life Balance Level 1** was identified as a higher-risk segment.
 
-This suggests that HR should examine work-life balance together with workload and overtime.
+This suggests HR should evaluate work-life balance together with workload and overtime.
 
 ```text
 Poor Work-Life Balance
@@ -333,7 +341,7 @@ Potential Retention Risk
 
 ---
 
-# 5. 💰 Salary
+## 5. 💰 Salary
 
 Employees in the **under 3K salary band** showed higher attrition.
 
@@ -351,7 +359,7 @@ Salary was therefore analyzed alongside:
 
 ---
 
-# 6. ⏰ Overtime
+## 6. ⏰ Overtime
 
 Overtime was identified as another important attrition indicator.
 
@@ -373,11 +381,11 @@ Monthly Income
 Potential Workload + Compensation Risk
 ```
 
-This combination provides more useful business context than analyzing overtime alone.
+This provides more useful business context than analyzing overtime independently.
 
 ---
 
-# 7. ✈️ Business Travel
+## 7. ✈️ Business Travel
 
 Frequent business travel was identified as another potential attrition indicator.
 
@@ -393,11 +401,11 @@ Low Compensation
 Potentially Higher Attrition Risk
 ```
 
-However, business travel should be considered a **risk signal rather than a proven cause of attrition**.
+However, business travel should be treated as a **risk signal rather than a proven cause of attrition**.
 
 ---
 
-# 8. 👨‍💼 Experience & Manager Tenure
+## 8. 👨‍💼 Experience & Manager Tenure
 
 The SQL analysis also examined:
 
@@ -422,7 +430,7 @@ Potential areas for HR investigation include:
 
 # 🧩 Risk Factor Analysis
 
-After analyzing individual factors, multiple risk conditions were combined to create an **employee risk score**.
+After analyzing individual factors, multiple risk conditions were combined to create an **Employee Risk Score**.
 
 ### Risk Factors Used
 
@@ -473,25 +481,29 @@ Risk Score =
 
 # 👥 Active Employee Risk Analysis
 
-An important part of the project is that risk scoring is performed only on **currently active employees**.
+Risk scoring is performed only on **currently active employees**.
 
 ```sql
 WHERE Attrition = 0
 ```
 
-This changes the purpose of the analysis from:
+This is important because the purpose of the analysis is not to score employees who already left.
+
+Instead, the goal is to identify:
+
+> **Which current employees show multiple historical risk signals?**
+
+The approach therefore moves from:
 
 ```text
-Who already left?
+Historical Attrition Analysis
+          ↓
+Identify Risk Factors
+          ↓
+Score Current Employees
+          ↓
+Prioritize HR Investigation
 ```
-
-to:
-
-```text
-Which current employees show multiple historical risk signals?
-```
-
-This makes the analysis more useful from an HR retention perspective.
 
 ---
 
@@ -597,7 +609,7 @@ ORDER BY Risk_Score DESC;
 
 # 🎯 Business Use of the Risk Table
 
-The risk table allows HR to move from historical analysis to proactive investigation.
+The risk table allows HR to move from historical analysis toward proactive investigation.
 
 ```text
 Historical Attrition Analysis
@@ -613,7 +625,7 @@ Prioritize HR Investigation
 Targeted Retention Actions
 ```
 
-For example, an employee with a high risk score may have several of the following characteristics:
+For example, an employee with a high risk score may have:
 
 * Low salary
 * Frequent business travel
@@ -626,7 +638,7 @@ Instead of applying the same retention strategy to everyone, HR can prioritize e
 
 ---
 
-# 💼 HR Retention Recommendations
+# 💼 Recommended HR Actions
 
 ## 🔴 High-Risk Employees
 
@@ -635,7 +647,7 @@ Potential actions:
 * Manager check-ins
 * Compensation review
 * Workload assessment
-* Career development discussion
+* Career development discussions
 * Internal mobility opportunities
 * Retention incentives where appropriate
 
@@ -668,7 +680,7 @@ Continue:
 
 # 🧠 Key Business Questions Answered
 
-This SQL project answers:
+This project explores:
 
 * What is the overall employee attrition rate?
 * Which age groups have the highest attrition?
@@ -690,14 +702,14 @@ This SQL project answers:
 
 This project identifies **historical patterns and risk indicators**. It does not prove that any individual factor directly causes employee attrition.
 
-Important limitations:
+Important limitations include:
 
 * The dataset represents historical employee information.
 * The risk score is rule-based.
 * Each risk factor receives equal weight.
 * The score is not a machine-learning prediction.
 * The score should not be interpreted as a probability of resignation.
-* Correlation or association does not establish causation.
+* Association does not establish causation.
 * HR context and employee feedback are required before taking action.
 
 > **The risk score should be used as a prioritization framework for HR investigation, not as a definitive prediction that an employee will leave.**
@@ -744,30 +756,6 @@ HR Retention Recommendations
 
 ---
 
-# 📂 Project Structure
-
-```text
-Employee-Attrition-SQL-Analysis/
-│
-├── README.md
-│
-├── sql/
-│   ├── 01_data_cleaning.sql
-│   ├── 02_overall_attrition.sql
-│   ├── 03_department_analysis.sql
-│   ├── 04_job_role_analysis.sql
-│   ├── 05_demographic_analysis.sql
-│   ├── 06_satisfaction_analysis.sql
-│   ├── 07_salary_overtime_analysis.sql
-│   ├── 08_risk_factor_analysis.sql
-│   └── 09_employee_risk_scoring.sql
-│
-└── data/
-    └── IBM_HR_Analytics.csv
-```
-
----
-
 # 🚀 Future Improvements
 
 Although the current project is intentionally focused on SQL, it can later be extended with:
@@ -782,13 +770,13 @@ Although the current project is intentionally focused on SQL, it can later be ex
 * Employee-level prediction dashboards
 * HR intervention tracking
 
-These would be **future extensions** and are not part of the current SQL analysis.
+These are **future extensions** and are not part of the current SQL analysis.
 
 ---
 
 # ✅ Final Outcome
 
-This project demonstrates how SQL can be used to move from raw HR data to actionable business insights.
+This project demonstrates how **SQL and Microsoft Fabric** can be used to transform raw HR data into actionable business insights.
 
 The analysis progressed from:
 
@@ -806,7 +794,7 @@ Which current employees show multiple risk signals?
 What can HR investigate or address?
 ```
 
-The final **employee risk-scoring framework** provides HR with a structured way to prioritize current employees for further investigation.
+The final **Employee Risk Scoring framework** provides HR with a structured way to prioritize current employees for further investigation.
 
 > ### 🎯 Key Takeaway
 >
