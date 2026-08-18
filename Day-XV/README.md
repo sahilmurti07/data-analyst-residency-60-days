@@ -1,13 +1,16 @@
-🔄 Day 15/60 — Data Analytics Architecture & SQL Revision
+# 🔄 Day 15/60 — Data Analytics Architecture & SQL Revision
 
-Revision day focused on consolidating the concepts, projects, architecture, and SQL skills learned during the last two weeks.
+> Revision day focused on consolidating the data analytics, data engineering, data warehouse, and SQL concepts learned during the previous two weeks.
 
-📌 Overview
+---
 
-Today was mainly a revision and consolidation day after completing multiple data analytics projects and practicing SQL.
+## 📌 Overview
 
-The main focus was understanding how the different parts of a production-level analytics environment connect together.
+Today was mainly a **revision and consolidation day** after completing multiple data analytics projects and practicing SQL.
 
+The main focus was understanding how the different components of a production-level analytics environment connect together.
+
+```text
 Source Systems
       ↓
 ETL / ELT
@@ -19,32 +22,46 @@ Data Warehouse
 Semantic Layer
       ↓
 Reporting / Dashboard
-🏗️ Production-Level Data Analytics Architecture
-1. Data Extraction & Ingestion
+```
 
-Data can come from multiple source systems and first moves through an ETL / ELT process.
+---
 
+## 🏗️ Production-Level Data Analytics Architecture
+
+### 1. Data Extraction & Ingestion
+
+The first stage of an analytics system is extracting data from multiple source systems.
+
+The data can move through an **ETL / ELT process** before being prepared for analytical use.
+
+```text
 Multiple Sources
        ↓
     ETL / ELT
        ↓
     Staging
+```
 
-The staging layer acts as an intermediate area before the data is loaded into the warehouse.
+The staging layer acts as an intermediate layer where incoming data can be temporarily stored before being loaded into the warehouse.
 
-2. Data Warehouse
+---
 
-The staged data is then moved into the Data Warehouse, where structured analytical data is maintained.
+### 2. Data Warehouse
 
-During today's revision, I focused on:
+The staged data is then moved into the **Data Warehouse**, which acts as the central analytical storage layer.
 
-Tables
-Views
-Stored Procedures
-Materialized Views
-Fact Tables
-Dimension Tables
-SQL-based transformations
+During today's revision, I focused on understanding:
+
+- Tables
+- Views
+- Stored Procedures
+- Materialized Views
+- Fact Tables
+- Dimension Tables
+- SQL-based transformations
+- Analytical data preparation
+
+```text
 Staging
    ↓
 Data Warehouse
@@ -52,58 +69,88 @@ Data Warehouse
 Fact & Dimension Tables
    ↓
 Business-ready Data
-3. Semantic Layer
+```
 
-After the warehouse, the data moves into the Semantic Layer.
+I also revised how **fact and dimension tables** are used to organize analytical data and support business reporting.
 
-The semantic layer provides a business-friendly structure for analytical consumption.
+---
+
+### 3. Semantic Layer
+
+After the warehouse, the data can be exposed through a **Semantic Layer**.
+
+The semantic layer provides a business-friendly representation of the warehouse data.
 
 Topics revised:
 
-Data Modelling
-Relationships
-KPIs
-Measures
-Row-Level Security
+- Data Modelling
+- Relationships
+- KPIs
+- Measures
+- Row-Level Security
+
+```text
 Data Warehouse
       ↓
 Semantic Layer
       ↓
 Business-friendly Analytical Model
-4. Reporting Layer
+```
 
-The prepared analytical data can then be consumed by reporting tools such as Power BI.
+This layer helps transform technical warehouse structures into data that business users can understand and analyze.
 
+---
+
+### 4. Reporting Layer
+
+The final stage is the reporting and dashboard layer.
+
+Tools such as **Power BI** can consume the prepared analytical data and present:
+
+- KPIs
+- Reports
+- Dashboards
+- Business visualizations
+- Analytical insights
+
+```text
 Semantic Layer
       ↓
 Power BI
       ↓
 Reports & Dashboards
+```
 
-The reporting layer is where business users consume KPIs, analysis, and visual insights.
+---
 
-💻 SQL Practice
+# 💻 SQL Practice
 
-Along with architecture revision, I continued solving SQL problems on StrataScratch.
+Along with architecture revision, I continued solving **SQL problems on StrataScratch**.
 
-The focus was not only on solving individual questions but also on improving my overall SQL problem-solving approach.
+The goal was not only to solve individual questions but also to improve the way I approach SQL problems.
 
-Areas Practiced
-Breaking a business problem into smaller parts
-Writing SQL in a structured sequence
-Joins
-Aggregations
-Grouping
-Customer behaviour analysis
-Product analysis
-Order and purchase analysis
-Identifying unusual or suspicious data patterns
-🧠 Key Learning
+### Areas Practiced
 
-One of the biggest takeaways from today's revision was understanding the importance of solving analytics problems in a proper sequence.
+- Breaking a business problem into smaller parts
+- Writing SQL in a structured sequence
+- Joins
+- Aggregations
+- `GROUP BY`
+- Filtering
+- Customer behaviour analysis
+- Product analysis
+- Order and purchase analysis
+- Identifying unusual or suspicious data patterns
 
-Instead of immediately jumping into SQL or visualization:
+---
 
+# 🧠 Key Learning
+
+One of the biggest takeaways from today's revision was understanding that data analytics should be approached in a **proper sequence**.
+
+Instead of directly jumping into SQL queries or visualizations, the analytical process should first understand the complete data journey.
+
+```text
 Understand the Source
         ↓
 Extract the Data
@@ -120,47 +167,111 @@ Define KPIs
         ↓
 Analyze the Business Problem
         ↓
-Report the Insights
+Generate Insights
+        ↓
+Report the Results
+```
 
-This helped me connect the concepts I have learned individually into a more complete production-level data analytics workflow.
+This helped me connect the different concepts I have been learning individually into one complete **production-oriented data analytics workflow**.
 
-🎯 Focus for Future Projects
+---
 
-I want to make my next projects more structured and easier to understand by following a clear sequence:
+# 🎯 Improving My Project Approach
 
-Understand the source data first
-Organize ingestion and transformation
-Identify important columns and business entities
-Build clean analytical datasets
-Write SQL based on specific business questions
-Validate unusual or unexpected results
-Convert analysis into meaningful business insights
-📚 Overall Learning
+Another important focus of today's revision was improving the way I structure projects.
 
-Today's revision helped connect:
+For future projects, I want to follow a cleaner process:
 
+```text
+Business Problem
+       ↓
+Understand the Source Data
+       ↓
+Data Ingestion
+       ↓
+Data Cleaning
+       ↓
+Data Transformation
+       ↓
+Data Modelling
+       ↓
+SQL Analysis
+       ↓
+Business Insights
+       ↓
+Recommendations
+```
+
+This approach will make it easier to:
+
+- Understand the data before analysis
+- Identify important columns and entities
+- Detect suspicious or unexpected values
+- Write SQL more logically
+- Connect technical analysis with business questions
+- Produce clearer and more explainable insights
+
+---
+
+# 📚 Overall Learning From the First Two Weeks
+
+Today's revision helped me connect several areas of data analytics that I had previously learned separately.
+
+```text
 Data Engineering
        +
-Data Warehouse
+Data Warehousing
        +
 Data Modelling
        +
-SQL Analysis
+SQL
        +
-Business Intelligence
+Business Analysis
+       +
+Reporting
+```
 
-into one complete analytics workflow.
+The biggest takeaway is:
 
-The biggest takeaway:
+> **Data analytics is not only about writing SQL queries or creating dashboards. It is about understanding where the data comes from, how it is transformed, how it is structured, and how it can be used to answer a business problem.**
 
-Good data analytics is not only about writing SQL or creating dashboards. It is about understanding where the data comes from, how it is transformed, how it is modelled, and how it finally answers a business question.
+---
 
-📅 Next Step
+# 🏗️ Production-Level Thinking
 
-From tomorrow, I will start the next project using this more structured and production-oriented approach.
+The main difference I noticed during this revision is moving from:
 
-The workflow will be:
+```text
+"Can I solve this SQL question?"
+```
 
+towards:
+
+```text
+"How would this work in a real production environment?"
+```
+
+That means thinking about:
+
+- Where the data comes from
+- How the data is ingested
+- Where it is stored
+- How it is transformed
+- How fact and dimension tables are designed
+- How business logic is created
+- How KPIs are defined
+- How users consume the data
+- How the complete workflow is maintained
+
+---
+
+# 📅 Next Step
+
+From tomorrow, I will start the next project with a more structured and production-oriented approach.
+
+The focus will be:
+
+```text
 Data Ingestion
       ↓
 Data Transformation
@@ -170,10 +281,48 @@ Data Modelling
 SQL Analysis
       ↓
 Business Insights
-🚀 Day 15 Complete
+      ↓
+Recommendations
+```
 
-Revision → Architecture → SQL Practice → Better Project Approach
+The goal is to apply the concepts from the last two weeks to a new project and make the overall workflow cleaner, more systematic, and closer to a real-world analytics environment.
 
-Learn individually → Understand the architecture → Apply everything together.
+---
 
-#DataAnalytics #SQL #DataEngineering #DataWarehouse #ETL #ELT #SemanticLayer #PowerBI #StrataScratch #LearningInPublic #60DaysOfData
+# 🚀 Day 15 Complete
+
+**Revision → Architecture Understanding → SQL Practice → Production-Level Thinking**
+
+> **Learn individual concepts → Understand how they connect → Apply them together in projects.**
+
+---
+
+## 🛠️ Technologies & Concepts Revised
+
+- SQL
+- StrataScratch
+- ETL / ELT
+- Staging
+- Data Warehouse
+- Fact Tables
+- Dimension Tables
+- Views
+- Stored Procedures
+- Materialized Views
+- Semantic Layer
+- Data Modelling
+- KPIs
+- Relationships
+- Row-Level Security
+- Power BI
+- Business Analytics
+
+---
+
+### 📈 Progress
+
+**Day 15 / 60 ✅**
+
+> Continuing the journey from **learning individual tools to understanding complete production-level data analytics workflows.**
+
+#DataAnalytics #SQL #DataEngineering #DataWarehouse #ETL #ELT #DataModelling #PowerBI #StrataScratch #BusinessAnalytics #LearningInPublic #60DaysOfData
