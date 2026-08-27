@@ -9,7 +9,7 @@ Built an end-to-end election analytics project using Microsoft Fabric, SQL, PySp
 - Constituency Winner Flips
 - Margin of Victory
 
-🔗 **[View Full Project Repository →]https://github.com/sahilmurti07/tamil-nadu-election-analytics-2021-2026**
+🔗 **https://github.com/sahilmurti07/tamil-nadu-election-analytics-2021-2026**
 
 | Day | Work Completed |
 |---|---|
